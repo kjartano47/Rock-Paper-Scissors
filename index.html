@@ -7,7 +7,68 @@
     <title>Document</title>
 </head>
 <body>
+    <button id="rock-btn">Rock</button>
+    <button id="paper-btn">Paper</button>
+    <button id="scissors-btn">Scissors</button>
+
+    <div id="results">Results</div>
+    <div id="yScore">Your score</div>
+    <div id="cScore" ></div>
+
+    <div id="winner"></div>
+
     <script>
+        const winner = document.querySelector('#winner');
+        const results = document.querySelector('#results');
+        const yScore = document.querySelector('#yScore');
+        const cScore = document.querySelector('#cScore');
+
+        let cPoints = 0;
+        let yPoints = 0;
+        yScore.textContent = `Your score: ${yPoints}`;
+        cScore.textContent = `Your score: ${cPoints}`;
+
+        function end(){
+            rockBtn.style.display = "none";
+            paperBtn.style.display = "none";
+            scissorsBtn.style.display = "none";
+            
+        }
+        function pointForHuman(){
+            yPoints++;
+            yScore.textContent = `Your score: ${yPoints}`;
+            if(yPoints == 5){
+                winner.textContent = "You Won!"
+                end();
+            }
+        }
+        function pointForComputer(){
+            cPoints++;
+            cScore.textContent = `Your score: ${cPoints}`;
+            if(cPoints == 5){
+                winner.textContent = "Computer Wins"
+            end();
+            }
+        }
+
+        const rockBtn = document.querySelector('#rock-btn');
+        rockBtn.addEventListener('click', () => {
+            
+            results.textContent = (playRound("rock", getComputerChoice()));
+        } );
+
+        const paperBtn = document.querySelector('#paper-btn');
+        paperBtn.addEventListener('click', () => {
+            results.textContent = (playRound("paper", getComputerChoice()));
+        } );
+
+        const scissorsBtn = document.querySelector('#scissors-btn');
+        scissorsBtn.addEventListener('click', () => {
+            results.textContent = (playRound("scissors", getComputerChoice()));
+        } );
+
+        
+        
         function getComputerChoice(){
             let choice = Math.floor(Math.random()* 3) + 1;
             if(choice == 1){
@@ -20,34 +81,41 @@
                 return "scissors";
             }
         }
-        console.log(getComputerChoice());
 
         function playRound(playerSelection, computerSelection){
+
             if(playerSelection == computerSelection){
                 return "Tie!"
             }
             else if(playerSelection == "rock" && computerSelection == "paper"){
+                pointForComputer();
                 return `You lose! ${computerSelection} beats ${playerSelection}`
             }
             else if(playerSelection == "paper" && computerSelection == "scissors"){
+                pointForComputer();
                 return `You lose! ${computerSelection} beats ${playerSelection}`
             }
             else if(playerSelection == "scissors" && computerSelection == "rock"){
+                pointForComputer();
                 return `You lose! ${computerSelection} beats ${playerSelection}`
             }
             else if(playerSelection == "paper" && computerSelection == "rock"){
+                pointForHuman()
                 return `You win! ${playerSelection} beats ${computerSelection}`
             }
             else if(playerSelection == "scissors" && computerSelection == "paper"){
+                pointForHuman()
                 return `You win! ${playerSelection} beats ${computerSelection}`
             }
             else if(playerSelection == "rock" && computerSelection == "scissors"){
+                pointForHuman()
                 return `You win! ${playerSelection} beats ${computerSelection}`
             }
             else{
                 return "Something went wrong! did you enter a valid input?";
             }
         }
+        /*
         //Prompts user for valid input
         function getInput(){
             let youInput = prompt("write rock, paper or scissors in the field");
@@ -97,8 +165,8 @@
             else{
                 console.log(`Looks like a tie! Your score is ${youScore} and the computer score is ${computerScore}`);
             }
-        }
-        game();
+        }*/
+        //game();
         
     </script>
 </body>
